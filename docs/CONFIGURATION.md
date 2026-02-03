@@ -564,7 +564,7 @@ oc set env dc/eagle-api \
 ```bash
 oc create secret generic eagle-api-mongodb \
   --from-literal=MONGODB_USERNAME=admin \
-  --from-literal=MONGODB_PASSWORD='SecureP@ssw0rd!' \
+  --from-literal=MONGODB_PASSWORD='<your-secure-password-here>' \
   -n 6cdc9e-dev
 ```
 
@@ -673,7 +673,7 @@ if (!config.API_LOCATION.startsWith('http')) {
 ❌ **DON'T**: Commit secrets, passwords, or API keys
 ```javascript
 // BAD: Hardcoded secret
-const dbPassword = 'MySecretP@ssw0rd';
+const dbPassword = 'hardcoded-password-here';
 ```
 
 ✅ **DO**: Use OpenShift secrets and environment variables
