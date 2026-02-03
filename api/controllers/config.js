@@ -16,8 +16,8 @@ exports.publicGetConfig = async function (args, res) {
     KEYCLOAK_REALM: process.env.KEYCLOAK_REALM,
     KEYCLOAK_ENABLED: process.env.KEYCLOAK_ENABLED === 'true',
     // Analytics configuration
-    // Default to /api/analytics which uses nginx reverse proxy to penguin-analytics
-    ANALYTICS_API_URL: process.env.ANALYTICS_API_URL || '/api/analytics',
+    // Default to /analytics which uses nginx reverse proxy to penguin-analytics
+    ANALYTICS_API_URL: process.env.ANALYTICS_API_URL || '/analytics',
     ANALYTICS_DEBUG: process.env.ANALYTICS_DEBUG === 'true' || process.env.ENVIRONMENT !== 'prod',
     // Survey configuration  
     SURVEY_URL: process.env.SURVEY_URL || null,
