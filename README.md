@@ -4,6 +4,37 @@
 
 API for acting as a central authenticated data service for all EPIC front-ends
 
+## Documentation
+
+Comprehensive architecture and deployment documentation is available in the [docs](./docs) directory:
+
+* **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Platform architecture overview
+  * Service map and request routing
+  * Why `/api` bypasses rproxy (direct route architecture)
+  * nginx configuration and caching strategy
+  * Security and authentication flows
+  * Monitoring and health checks
+  
+* **[ANALYTICS_ARCHITECTURE.md](./docs/ANALYTICS_ARCHITECTURE.md)** - Analytics integration
+  * Penguin Analytics service architecture
+  * Why `/analytics` is separate from `/api` path
+  * Event schema and TimescaleDB storage
+  * Frontend integration (AnalyticsService pattern)
+  * Performance considerations and troubleshooting
+  
+* **[CONFIGURATION.md](./docs/CONFIGURATION.md)** - Configuration management
+  * ConfigService pattern with runtime config fetching
+  * Environment variables reference (dev/test/prod)
+  * Build-time vs runtime configuration
+  * Secrets management in OpenShift
+  
+* **[DEPLOYMENT.md](./docs/DEPLOYMENT.md)** - Deployment workflows
+  * OpenShift namespace structure (6cdc9e-tools/dev/test/prod)
+  * GitHub Actions CI/CD pipeline
+  * Helm chart deployment
+  * Environment promotion workflow (dev → test → prod)
+  * Rollback procedures and troubleshooting
+
 ## Related projects
 
 Eagle is a revision name of the EAO EPIC application suite.
@@ -17,6 +48,8 @@ These projects comprise EAO EPIC:
 * <https://github.com/bcgov/eagle-reports>
 * <https://github.com/bcgov/eagle-helper-pods>
 * <https://github.com/bcgov/eagle-dev-guides>
+* <https://github.com/bcgov/eao-nginx> (rproxy reverse proxy)
+* <https://github.com/bcgov/penguin-analytics> (analytics service)
 
 ## Pre-requisites
 
