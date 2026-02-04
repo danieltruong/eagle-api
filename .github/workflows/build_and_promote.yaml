@@ -52,15 +52,24 @@ jobs:
           # Push the commit SHA tagged image
           docker push ${{ steps.build_image.outputs.image }}:${{ steps.short-sha.outputs.SHA }}
           
-          # Tag as dev and latest
+          # Tag as ci-latest (watched by dev DeploymentConfig) and latest
+          docker tag ${{ steps.build_image.outputs.image }}:${{ steps.short-sha.outputs.SHA }} \
+            ${{ steps.build_image.outputs.image }}:ci-latest
           docker tag ${{ steps.build_image.outputs.image }}:${{ steps.short-sha.outputs.SHA }} \
             ${{ steps.build_image.outputs.image }}:dev
           docker tag ${{ steps.build_image.outputs.image }}:${{ steps.short-sha.outputs.SHA }} \
             ${{ steps.build_image.outputs.image }}:latest
           
           # Push tags
+          docker push ${{ steps.build_image.outputs.image }}:ci-latest
           docker push ${{ steps.build_image.outputs.image }}:dev
           docker push ${{ steps.build_image.outputs.image }}:latest
+
+      - name: Install OpenShift CLI
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: "4.14"
+          skip_cache: true
 
       - name: Log into OpenShift
         uses: redhat-actions/oc-login@v1.3
@@ -71,8 +80,13 @@ jobs:
 
       - name: Tag image in OpenShift for Dev
         run: |
+          # Tag for dev promotion (manual workflow can use this)
           oc tag ${{ env.OPENSHIFT_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.SHA }} \
                  ${{ env.OPENSHIFT_NAMESPACE }}/${{ env.IMAGE_NAME }}:dev
+          
+          # Tag as ci-latest (triggers automatic dev deployment)
+          oc tag ${{ env.OPENSHIFT_NAMESPACE }}/${{ env.IMAGE_NAME }}:${{ steps.short-sha.outputs.SHA }} \
+                 ${{ env.OPENSHIFT_NAMESPACE }}/${{ env.IMAGE_NAME }}:ci-latest
 
       - name: Verify Deployment
         run: |
