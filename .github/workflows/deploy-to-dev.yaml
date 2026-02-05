@@ -1,11 +1,11 @@
 # =============================================================================
-# Build and Deploy to Dev
+# Deploy to Dev
 # =============================================================================
 # Triggered on push to develop branch.
 # Builds Docker image using S2I, pushes to OpenShift registry, tags for dev.
 # =============================================================================
 
-name: Build and Deploy to Dev
+name: Deploy to Dev
 
 on:
   push:
